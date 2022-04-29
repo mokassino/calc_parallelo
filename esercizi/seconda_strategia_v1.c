@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
         int imov;  //spiazzamento dell'indice per accedere agli elementi dell'array
 
         int sumparz = 0, sumtot=0; // variabili dove conservare le somme parziai
-        int logproc = 2;//log2n(nproc); //variabile usata per le spedizioni per la seconda strategia della somma
+        int logproc;//log2n(nproc); //variabile usata per le spedizioni per la seconda strategia della somma
         int recv_parz = 0; //variabile temporanea dove tenere le somme parziali
 
         int k = 1; //variabile utilizzata nello spiazzamento dell'indice per le spedizioni delle somme parziali
@@ -36,6 +36,7 @@ int main(int argc, char *argv[]) {
         MPI_Comm_size(MPI_COMM_WORLD, &nproc);
 
         imov = n/nproc;
+        logproc = log2n(nproc);
 
 
         //Popolamento array
