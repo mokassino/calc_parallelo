@@ -4,6 +4,43 @@
 
 #define SIZE_OF_INT (int)sizeof(int)
 
+//Legge l'input da un file di configurazione
+//La prima riga deve essere n=%d
+//Le righe successive sono gli elementi nell'array
+int read_config(int **a, int *n){
+                int k=0,j=0;
+
+                //Lettura da file
+                const char* filename = "config";
+                FILE* config = fopen(filename, "r");
+
+                if (!config){
+                        return 1;
+                }
+
+                char *buf;
+                size_t len = 0;
+                if ( getline(&buf, &len, config) == 0){
+                        return 1;
+                }
+
+                printf("%s",buf);
+                sscanf(buf, "n=%d", n);
+                printf("Numero: %d\n",*n);
+
+                int wrap = *n;
+                *a = (int *)malloc(wrap * sizeof(int)); //allocazione dinamica della memoria
+
+                //Popolamento dell'array con gli elementi nel vettore
+                while ( getline(&buf, &len, config) != -1 && k < *n){
+                        (*a)[k++] = atoi(buf);
+                }
+
+                return 0;
+
+}
+
+
 //Prende degli elementi in input e li alloca ad un array
 void get_input(int **array, int *size){
 	char buffer[1024];
