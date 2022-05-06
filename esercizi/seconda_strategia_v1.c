@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
         logproc = log2n(nproc);
 
 
-        //Popolamento array
+        //Popolamento array e spedizione della complessità computazionale
         if ( menum == 0){
 
                 //Lettura da file di size ed elementi dell'array
@@ -49,6 +49,8 @@ int main(int argc, char *argv[]) {
 
                 imov = n/nproc; //calcolo elementi che ogni processore deve sommare
                 r = n%nproc; //calcolo del resto
+                
+                // P0 spedisce a tutti gli altri in sequenziale il numero di elementi totale da sommare
                 for(int i=1; i<nproc; i++){
                         tag=10+i;
                         MPI_Send(&n, 1, MPI_INT, i, tag, MPI_COMM_WORLD);
@@ -57,6 +59,7 @@ int main(int argc, char *argv[]) {
         }else{
 
                 tag=10+menum;
+                //Gli altri processori ricevono il valore di N
                 MPI_Recv(&n,1,MPI_INT,0,tag,MPI_COMM_WORLD,&info);
 
                 imov = n/nproc;
@@ -102,14 +105,15 @@ int main(int argc, char *argv[]) {
         if (menum < r) imov++; //Deve sommare un elemento in più
 
         for (int k=0; k<imov; k++){
-                if (menum == 0) //Il processore 0 non utilizza arecv
+                if (menum == 0) //Il processore 0 non utilizza arecv ma l'array che ha letto da file
                    sumparz += a[k];
                 else
                    sumparz += arecv[k];
                    
         }
         
-        //Invio, seconda strategia: ad ogni passo i processori inviano agli adiacenti fino ad arrivare al processore 0
+        //Invio, seconda strategia: ad ogni passo i processori inviano le somme parziali 
+        //a quelli adiacenti che contengono le somme parziali, fino ad arrivare a P0
 
         for(int i=0; i<logproc; i++){
 
