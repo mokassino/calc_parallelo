@@ -24,6 +24,11 @@ int main(int argc, char *argv[]) {
 
         int r=0; //rest
 
+        clock_t tutto_il_programma;
+        clock_t seconda_strategia;
+        clock_t seconda_strategia_reduce;
+
+        tutto_il_programma = clock(); //Inzio tempo tutto il programma
 
         //inizializzazione MPI
 
@@ -103,7 +108,10 @@ int main(int argc, char *argv[]) {
         }
 
 
-        //Invio, seconda strategia
+        //Invio somme parziali, seconda strategia
+        
+        //Inizio tempo seconda strategia
+        seconda_strategia = clock();
 
         for(int i=0; i<logproc; i++){
 
@@ -121,6 +129,9 @@ int main(int argc, char *argv[]) {
                         }
                 }
         }
+        
+        //Fine tempo seconda strategia
+        seconda_strategia = clock() - seconda_strategia;
   
         if (menum == 0){
                 sumtot = sumparz;
@@ -133,8 +144,15 @@ int main(int argc, char *argv[]) {
         for (int k=0; k<imov; k++){
                 sumparz += (menum == 0) ? a[k] : arecv[k];
         }
+        
+        //Inizio tempo seconda strategia con reduce
+        seconda_strategia_reduce = clock();
 
-        MPI_Reduce(&sumtot,&sumparz,1,MPI_INT,MPI_SUM,0,MPI_COMM_WORLD);
+        MPI_Reduce(&sumtot,&sumparz,1,MPI_INT,MPI_SUM,0,MPI_COMM_WORLD); //Seconda strategia con MPI_Reduce
+        
+        //Fine tempo seconda strategia con reduce
+        seconda_strategia_reduce = clock() - seconda_strategia_reduce;
+
 
         if (menum == 0){
                 printf("\nSomma totale con MPI_Reduce: %d\n", sumtot);
@@ -143,9 +161,25 @@ int main(int argc, char *argv[]) {
         //se P0, libera la memoria di a, altrimenti libera la memoria di arecv
         (menum == 0) ? free(a) : free (arecv);
 
+         //Fine tempo tutto il programma
+        tutto_il_programma = clock() - tutto_il_programma;
+
+        //Conversione dei clock in secondi
+        double tempo1 = ((double)tutto_il_programma) / CLOCKS_PER_SEC;
+        double tempo2 = ((double)seconda_strategia) / CLOCKS_PER_SEC;
+        double tempo3 = ((double)seconda_strategia_reduce) / CLOCKS_PER_SEC;
+
+
         MPI_Finalize();
+
+        if (menum == 0){
+                printf("Tempo totale: %f \nTempo seconda strategia: %f\nTempo seconda strategia con reduce: %f\n\n", tempo1,tempo2, tempo3);
+                write_timings(tempo1,tempo2,tempo3); //Scrivi i tempi su file
+        }
+
         return 0;
 }
+
 
 
 
