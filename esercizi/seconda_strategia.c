@@ -3,6 +3,7 @@
 #include <mpi.h>
 #include <unistd.h>
 #include "util.h"
+#include <time.h>
 
 #define ISZE sizeof(int)
 
