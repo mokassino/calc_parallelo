@@ -40,6 +40,32 @@ int read_config(int **a, int *n){
 
 }
 
+//Scrive 
+int write_timings(double tt, double ts, double tsr){
+	//tt = tempo totale, ts = tempo seconda strategia, 
+	//tsr= tempo seconda strategia reduce
+	
+	const char* filename = "timings"; //nome del file
+	FILE* timings = fopen(filename,"a"); //apertura file in modalità "append"
+
+	if ( ftell(timings) == 0){
+		fprintf(timings, "Tot Time\tTime 2nd s\tTime w reduce\n");
+	}
+
+	if (!timings) return 1; //non si è riusciti ad aprire il file, ritorna
+
+	fprintf(timings, "%f\t%f\t%f\n", tt, ts, tsr );
+
+	//Esempio di output nel file: 
+	//Tot Time	Time 2nd s	Time w reduce
+	//0.20321	0.00029		0.00011
+	
+
+	fclose(timings);
+
+	return 0;
+}
+
 
 //Prende degli elementi in input e li alloca ad un array
 void get_input(int **array, int *size){
@@ -70,15 +96,26 @@ void get_input(int **array, int *size){
 int myPow(int num, int exp){
 	int res=0;
 	if (exp == 0){
-		res = 1;
-		return res;
+		return 1;
 	}else{
 		res = num;
 	}
 
-	for (int i=1; i<exp; i++){
-		res *= res;
+	int i=1;
+	while((i++)<exp){
+		res <<= 1;
 	}
 
 	return res;
 }
+
+//Calcola un logaritmo in base 2
+unsigned int log2n(unsigned int n){
+	unsigned int res=0;
+	while (n >>= 1){
+		res++;
+	}
+
+	return res;
+}
+
