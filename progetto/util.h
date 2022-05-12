@@ -26,7 +26,7 @@ int read_file(int **a, int **b, int *n){
 
 	//Lettura del vettore A
 
-	if ( getline(&buf, &len, config) == 0){
+	if ( getline(&buf, &len, vector_a) == 0){
 		return 1;
     }
 
