@@ -11,8 +11,10 @@ int usage(){
 //In input il main prende un intero
 int main(int argc, char* argv[]){
     int *a, *b, *c;
-    int n=0,alpha=0;
-    int i=0;
+    long int n=0;
+    int i=0, alpha=0;
+
+    double sc, ec, time; //start clock , end clock sono usate per prendere i tempi. 
 
 
     //Controlla l'input
@@ -29,14 +31,20 @@ int main(int argc, char* argv[]){
     c = (int *) malloc(n*sizeof(int));
 
     
-
-    #pragma omp parallel for private(i) schedule(dynamic) num_threads(8)
+    sc = omp_get_wtime();
+    #pragma omp parallel for private(i) schedule(static) num_threads(8)
     for (i=0; i<n; i++){
         c[i] = (a[i]*alpha)+b[i];
-        printf("%d + %d = %d\n", a[i]*alpha, b[i], c[i]);
 
     }
+    ec = omp_get_wtime();
 
-    printf("\n");
+    time = ec - sc;
+    //printf("Finito in: %f secondi\n",time);
+    if ( write_timings(time) == 1 ){
+        exit(1);
+    }
+
+    exit(0);
 
 }
