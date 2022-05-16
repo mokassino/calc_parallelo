@@ -1,2 +1,2 @@
 # calc_parallelo
-calcolo parallelo e distribuito università
+Progetto per l'esame universitario di Calcolo parallelo e distribuito.
