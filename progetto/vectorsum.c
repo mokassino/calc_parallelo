@@ -56,12 +56,6 @@ int main(int argc, char* argv[]){
     time = ec - sc;
     //printf("Finito in: %f secondi\n",time);
 
-    printf("\n\n");
-    for(int k=0; k<n; k++){
-        printf("%d ",c[k]);
-    }
-    printf("\n");
-
     if ( write_timings(time) == 1 ){
         exit(1);
     }
