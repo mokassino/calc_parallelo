@@ -10,7 +10,7 @@ import subprocess
 
 REP=100 # Numero di ripetizioni del programma
 ttot=0 # somma dei tempi ricavati
-N=10000000 # Dimensione del problema N cioè la dimensione degli array a,b,c
+N=1000000 # Dimensione del problema N cioè la dimensione degli array a,b,c
 
 
 print("Compilazione ed esecuzione dello scritp di popopolamento...\\")

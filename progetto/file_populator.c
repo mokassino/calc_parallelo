@@ -18,11 +18,11 @@ int main(int argc, char *argv[]){
     FILE* fa = fopen("vector_a","w");
     FILE* fb = fopen("vector_b","w");
 
-    fprintf(fa,"n=%d",size);
+    fprintf(fa,"n=%d\n",size);
 
     for(int i=0; i<size; i++){
         fprintf(fa,"%d\n",1);
-        fprintf(fa,"%d\n",1);
+        fprintf(fb,"%d\n",1);
     }
 
     fclose(fa);

@@ -31,23 +31,41 @@ int main(int argc, char* argv[]){
 
     c = (int *) malloc(n*sizeof(int));
 
-    nproc = 8;
+    nproc = 2;
     k = n/nproc;
     r = n%nproc;
 
-    step = r != 0 ? 0 : r;
+    step = 0;
 
-    
+    int id=0;
+
+    omp_set_num_threads(nproc);
+
     sc = omp_get_wtime();
-    #pragma omp parallel for private(i) schedule(static) num_threads(nproc)
-    for (i=0; i<n; i++){
-        c[i] = (a[i]*alpha)+b[i];
+    #pragma omp parallel private(id,step,i)
+    {
+        id = omp_get_thread_num();
+        if ( r < id) step = r;
 
+        for (i=id*k; i<id*k+k+step; i++){
+            printf("thread numero: %d, i vale: %d\n",id, i);
+
+            c[i] = (a[i]*alpha)+b[i];
+            printf("%d = %d+%d\n",c[i],a[i]*alpha,b[i]);
+
+        }
     }
     ec = omp_get_wtime();
 
     time = ec - sc;
-    //printf("Finito in: %f secondi\n",time);
+    printf("Finito in: %f secondi\n",time);
+
+    printf("\n\n");
+    for(int k=0; k<n; k++){
+        printf("%d ",c[k]);
+    }
+    printf("\n");
+
     if ( write_timings(time) == 1 ){
         exit(1);
     }
