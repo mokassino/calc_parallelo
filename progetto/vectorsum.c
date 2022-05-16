@@ -4,7 +4,7 @@
 #include "util.h"
 
 int usage(){
-    printf("Inserisci un intero\n");
+    printf("Inserisci due interi: prima il numero di processori e poi alpha\n");
     return 1;
 }
 
@@ -12,32 +12,28 @@ int usage(){
 int main(int argc, char* argv[]){
     int *a, *b, *c;
     long int n=0;
-    int i=0, alpha=0;
+    int i=0, alpha=0,id=0;
     int nproc=0,k=0,r=0,step=0;
 
     double sc, ec, time; //start clock , end clock sono usate per prendere i tempi. 
 
 
     //Controlla l'input
-    if ( argc < 2){
+    if ( argc < 3){
         return usage();
     }
 
+    nproc = atoi(argv[1]);
     //atoi converte la stringa presa in input in intero e lo assegna ad alpha
-    alpha = atoi(argv[1]); 
+    alpha = atoi(argv[2]); 
 
 
     read_file(&a, &b, &n ); //vedi util.h
 
     c = (int *) malloc(n*sizeof(int));
 
-    nproc = 2;
     k = n/nproc;
     r = n%nproc;
-
-    step = 0;
-
-    int id=0;
 
     omp_set_num_threads(nproc);
 

@@ -11,6 +11,7 @@ import subprocess
 REP=100 # Numero di ripetizioni del programma
 ttot=0 # somma dei tempi ricavati
 N=1000000 # Dimensione del problema N cioè la dimensione degli array a,b,c
+NPROC=2
 
 
 print("Compilazione ed esecuzione dello scritp di popopolamento...\\")
@@ -41,7 +42,7 @@ subprocess.run(["rm","timings","--force"]) # ignora se il file non esiste
 
 
 for i in range(REP): #Esegui vectorsum per #REP volte
-    subprocess.run(["./vectorsum", str(alpha)])
+    subprocess.run(["./vectorsum", str(NPROC), str(alpha)])
     print("Progresso: {}/{}".format(i,REP),end='\r',file=sys.stdout,flush=True)
 
 
@@ -55,5 +56,5 @@ with open("timings","r") as f:
             ttot = ttot + time
         except: pass
 
-print("\nRipetizioni del programma vectorsum effettuate: " + str(REP)+ "con N = " + str(N) + "\nSomma dei tempi di esecuzione delle operazioni: " + str(ttot) )
+print("\nRipetizioni del programma vectorsum effettuate: " + str(REP)+ " con NPROC = " + str(NPROC) + " e N = " + str(N) + "\nSomma dei tempi di esecuzione delle operazioni: " + str(ttot) )
 print("Media dei tempi di esecuzione: " + str(float(ttot/REP)) + "\n")
