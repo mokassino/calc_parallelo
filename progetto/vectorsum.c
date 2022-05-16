@@ -48,17 +48,13 @@ int main(int argc, char* argv[]){
         if ( r < id) step = r;
 
         for (i=id*k; i<id*k+k+step; i++){
-            printf("thread numero: %d, i vale: %d\n",id, i);
-
             c[i] = (a[i]*alpha)+b[i];
-            printf("%d = %d+%d\n",c[i],a[i]*alpha,b[i]);
-
         }
     }
     ec = omp_get_wtime();
 
     time = ec - sc;
-    printf("Finito in: %f secondi\n",time);
+    //printf("Finito in: %f secondi\n",time);
 
     printf("\n\n");
     for(int k=0; k<n; k++){
