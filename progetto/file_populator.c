@@ -28,7 +28,6 @@ int main(int argc, char *argv[]){
     fclose(fa);
     fclose(fb);
 
-    return 0;
-
+    exit(0);
 
 }

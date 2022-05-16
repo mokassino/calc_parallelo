@@ -33,8 +33,6 @@ int read_file(int **a, int **b, long int *n){
 	sscanf(buf, "n=%ld", n); //Leggi il size N del file
 	nwrap = *n;
 
-	printf("Lett: %ld",nwrap);
-
 	*a = (int *)malloc(nwrap * sizeof(int)); //allocazione dinamica della memoria
 
 	while ( getline(&buf, &len, vector_a) != -1 && k < nwrap){
