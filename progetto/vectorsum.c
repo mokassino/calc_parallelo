@@ -8,12 +8,12 @@ int usage(){
     return 1;
 }
 
-//In input il main prende un intero
+//In input il main prende il numero di processori e alpha
 int main(int argc, char* argv[]){
     int *a, *b, *c;
     long int n=0;
     int i=0, alpha=0,id=0;
-    int nproc=0,k=0,r=0,step=0;
+    int nproc=0,nloc=0,r=0,step=0;
 
     double sc, ec, time; //start clock , end clock sono usate per prendere i tempi. 
 
@@ -27,23 +27,27 @@ int main(int argc, char* argv[]){
     //atoi converte la stringa presa in input in intero e lo assegna ad alpha
     alpha = atoi(argv[2]); 
 
-
     read_file(&a, &b, &n ); //vedi util.h
 
     c = (int *) malloc(n*sizeof(int));
 
-    k = n/nproc;
+    omp_set_num_threads(nproc); //setta il numero di processori al programma
+
+
     r = n%nproc;
-
-    omp_set_num_threads(nproc);
-
     sc = omp_get_wtime();
-    #pragma omp parallel private(id,step,i)
+    #pragma omp parallel private(id,step,i,nloc) shared(r)
     {
+        nloc = n/nproc;
         id = omp_get_thread_num();
-        if ( r < id) step = r;
+        if ( id < r){
+            nloc++;
+            step=0;
+        }else{
+            step=r;
+        }
 
-        for (i=id*k; i<id*k+k+step; i++){
+        for (i=id*nloc+step; i<id*nloc+nloc+step; i++){ 
             c[i] = (a[i]*alpha)+b[i];
         }
     }
