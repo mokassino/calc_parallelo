@@ -4,7 +4,7 @@
 #include "util.h"
 
 int usage(){
-    printf("Inserisci due interi: prima il numero di processori e poi alpha\n");
+    printf("Uso: inserisci due interi: prima il numero di processori e poi alpha\n");
     return 1;
 }
 
@@ -23,9 +23,14 @@ int main(int argc, char* argv[]){
         return usage();
     }
 
-    nproc = atoi(argv[1]);
-    //atoi converte la stringa presa in input in intero e lo assegna ad alpha
-    alpha = atoi(argv[2]); 
+    //strtol converte le stringhe prese in input in interi 
+    nproc = (int) strtol(argv[1], NULL, 10);//atoi(argv[1]);
+    alpha = (int) strtol(argv[2], NULL, 10);//atoi(argv[2]); 
+
+    if ( nproc == 0 || alpha == 0){
+	    fprintf(stderr,"Errore nell'inserimento in input\n");
+	    return usage();
+    }
 
     read_file(&a, &b, &n ); //vedi util.h
 
