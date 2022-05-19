@@ -40,10 +40,11 @@ int main(int argc, char* argv[]){
 
 
     r = n%nproc;
+
     sc = omp_get_wtime();
-    #pragma omp parallel private(id,step,i,nloc) shared(r)
+    #pragma omp parallel private(id,step,i, nloc) 
     {
-        nloc = n/nproc;
+	nloc=n/nproc;
         id = omp_get_thread_num();
         if ( id < r){
             nloc++;
@@ -64,6 +65,7 @@ int main(int argc, char* argv[]){
     if ( write_timings(time) == 1 ){
         exit(1);
     }
+
 
     exit(0);
 
