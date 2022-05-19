@@ -34,18 +34,10 @@ int read_file(int **a, int **b, long int *n){
 	nwrap = *n;
 
 	*a = (int *)malloc(nwrap * sizeof(int)); //allocazione dinamica della memoria
-
-	while ( getline(&buf, &len, vector_a) != -1 && k < nwrap){
-		(*a)[k++] = atoi(buf);
-    }
-
-	//Lettura del vettore B
-	k = 0;
-
 	*b = (int *)malloc(nwrap * sizeof(int)); //allocazione dinamica della memoria
 
-
-	while ( getline(&buf, &len, vector_b) != -1 && k < nwrap){
+	while ( getline(&buf, &len, vector_a) != -1 && k < nwrap){
+		(*a)[k] = atoi(buf);
 		(*b)[k++] = atoi(buf);
     }
 
@@ -53,8 +45,6 @@ int read_file(int **a, int **b, long int *n){
 }
 
 int write_timings(double time){
-	//tt = tempo totale, ts = tempo seconda strategia, 
-	//tsr= tempo seconda strategia reduce
 	
 	const char* filename = "timings"; //nome del file
 	FILE* timings = fopen(filename,"a"); //apertura file in modalità "append"
@@ -62,11 +52,6 @@ int write_timings(double time){
 	if (!timings) return 1; //non si è riusciti ad aprire il file, ritorna
 
 	fprintf(timings, "%f\n", time);
-
-	//Esempio di output nel file: 
-	//Tempo
-	//0.052702
-	
 
 	fclose(timings);
 

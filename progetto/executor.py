@@ -10,17 +10,24 @@ import subprocess
 
 REP=100 # Numero di ripetizioni del programma
 ttot=0 # somma dei tempi ricavati
-N=1000000 # Dimensione del problema N cioè la dimensione degli array a,b,c
+N=100 # Dimensione del problema N cioè la dimensione degli array a,b,c
 NPROC=2
 
+if len(sys.argv) < 3:
+    print("Inserisci nproc e N in input\n");
+    exit(1)
 
-print("Compilazione ed esecuzione dello scritp di popopolamento...\\")
+NPROC = int(sys.argv[1])
+N = int(sys.argv[2])
+
+
+print("Compilazione ed esecuzione dello script popolamento...\\")
 
 out = subprocess.run(["gcc", "-o", "file_populator", "file_populator.c"]);
 
 if ( out.returncode == 1):
     printf("File 'file_populator.c' non trovato\n");
-    exit(1);
+    exit(1)
 
 out = subprocess.run(["./file_populator",str(N)])
 
@@ -58,3 +65,9 @@ with open("timings","r") as f:
 
 print("\nRipetizioni del programma vectorsum effettuate: " + str(REP)+ " con NPROC = " + str(NPROC) + " e N = " + str(N) + "\nSomma dei tempi di esecuzione delle operazioni: " + str(ttot) )
 print("Media dei tempi di esecuzione: " + str(float(ttot/REP)) + "\n")
+
+with open("results","a") as f:
+    if (f.tell() == 0):
+        print("Rep\tN Proc\tSize\tResult",end='\n',file=f)
+    else:
+        print(str(REP)+"\t"+str(NPROC)+"\t"+str(N)+"\t"+str(ttot)+"\n",file=f)
