@@ -76,7 +76,7 @@ int main(int argc, char* argv[]){
 		exit(1);
 	}
 
-	for(int i=0;i<n; i++) printf("c[%d]: %d\n",i,c[i]);
+	//for(int i=0;i<n; i++) printf("c[%d]: %d\n",i,c[i]);
 
 
 	exit(0);
