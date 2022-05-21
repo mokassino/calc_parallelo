@@ -3,7 +3,7 @@
 #include <omp.h>
 #include "util.h"
 
-float vectorsum(int **c, int**a, int**b, int alpha, long int n , int nproc, int r){
+double vectorsum(int **c, int**a, int**b, int alpha, long int n , int nproc, int r){
 	omp_set_num_threads(nproc); //setta il numero di processori al programma
 	int i=0;
 	int nloc=0;
