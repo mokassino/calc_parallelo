@@ -10,13 +10,15 @@ double vectorsum(int **c, int**a, int**b, int alpha, long int n , int nproc, int
 	int step=0;
 	int tnum=0;
 	int imov=0;
+	double ec = 0.0,sc = 0.0;
 
-	double ec,sc,time;
+	nloc=n/nproc;
 
 	sc = omp_get_wtime();
+
 	#pragma omp parallel private(tnum,step,i, nloc) 
 	{
-		nloc=n/nproc;
+		
 		tnum = omp_get_thread_num();
 		if ( tnum < r){
 			nloc++;
