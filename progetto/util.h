@@ -7,7 +7,7 @@
 //Legge l'input da un file di configurazione
 //La prima riga deve essere n=%d
 //Le righe successive sono gli elementi nell'array
-int read_file(int **a, int **b, long int *n){
+int read_file(float **a, float **b, long int *n){
 	int k=0,j=0;
 	char *buf;
 	size_t len = 0;
@@ -33,11 +33,12 @@ int read_file(int **a, int **b, long int *n){
 	sscanf(buf, "n=%ld", n); //Leggi il size N del file
 	nwrap = *n;
 
-	*a = (int *)malloc(nwrap * sizeof(int)); //allocazione dinamica della memoria
-	*b = (int *)malloc(nwrap * sizeof(int)); //allocazione dinamica della memoria
+	*a = (float *)malloc(nwrap * sizeof(float)); //allocazione dinamica della memoria
+	*b = (float *)malloc(nwrap * sizeof(float)); //allocazione dinamica della memoria
 
 	while ( getline(&buf, &len, vector_a) != -1 && k < nwrap){
 		(*a)[k] = atoi(buf);
+		//getline(&buf, &len, vector_b);
 		(*b)[k++] = atoi(buf);
     }
 

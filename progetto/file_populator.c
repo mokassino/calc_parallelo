@@ -21,8 +21,8 @@ int main(int argc, char *argv[]){
     fprintf(fa,"n=%d\n",size);
 
     for(int i=0; i<size; i++){
-        fprintf(fa,"%d\n",1);
-        fprintf(fb,"%d\n",1);
+        fprintf(fa,"%f\n",1.00);
+        fprintf(fb,"%f\n",1.00);
     }
 
     fclose(fa);

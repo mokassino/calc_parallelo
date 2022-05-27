@@ -7,13 +7,13 @@ def plot_properties(pos,gfunc):
     plot.xlabel('p - Numero processori')
 
     if gfunc.__name__ == "tau":
-        plot.ylabel('Tau di p')
+        plot.ylabel('Numero di operazioni al variare di p')
         plot.suptitle("Grafico dei tempi")
     elif gfunc.__name__ == "speedup":
-        plot.ylabel('Tau di 1 / Tau di p')
+        plot.ylabel('Speedup al variare di p')
         plot.suptitle("Grafico dello Speedup")
     elif gfunc.__name__ == "efficiency":
-        plot.ylabel('E di tau di p = S di tau di p / p')
+        plot.ylabel('Efficienza al variare di p')
         plot.suptitle("Grafico dell'Efficienza")
         
 

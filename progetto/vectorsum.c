@@ -3,7 +3,7 @@
 #include <omp.h>
 #include "util.h"
 
-double vectorsum(int **c, int**a, int**b, int alpha, long int n , int nproc, int r){
+double vectorsum(float **c, float**a, float**b, int alpha, long int n , int nproc, int r){
 	omp_set_num_threads(nproc); //setta il numero di processori al programma
 	int i=0;
 	int nloc=0;
@@ -12,13 +12,11 @@ double vectorsum(int **c, int**a, int**b, int alpha, long int n , int nproc, int
 	int imov=0;
 	double ec = 0.0,sc = 0.0;
 
-	nloc=n/nproc;
-
 	sc = omp_get_wtime();
 
-	#pragma omp parallel private(tnum,step,i, nloc) 
+	#pragma omp parallel private(tnum,step,i, imov, nloc)
 	{
-		
+		nloc=n/nproc;
 		tnum = omp_get_thread_num();
 		if ( tnum < r){
 			nloc++;
@@ -28,8 +26,9 @@ double vectorsum(int **c, int**a, int**b, int alpha, long int n , int nproc, int
 		}
 		imov = tnum*nloc + step;
 		for (i=imov; i<imov+nloc; i++){ 
-			(*c)[i] = ((*a)[i]*alpha)+(*b)[i];
+			(*c)[i] =  (*a)[i] * alpha + (*b)[i] ;
 		}
+		#pragma omp barrier
 	}
 	ec = omp_get_wtime();
 
@@ -43,7 +42,7 @@ int usage(){
 
 //In input il main prende il numero di processori e alpha
 int main(int argc, char* argv[]){
-	int *a, *b, *c;
+	float *a, *b, *c;
 	long int n=0;
 	int alpha=0;
 	int nproc=0,r=0;
@@ -66,7 +65,7 @@ int main(int argc, char* argv[]){
 
 	read_file(&a, &b, &n ); //vedi util.h
 
-	c = (int *) malloc(n*sizeof(int)); //alloco il vettore C
+	c = (float *) malloc(n*sizeof(float)); //alloco il vettore C
 
 	r = n%nproc; //calcolo
 
@@ -78,7 +77,7 @@ int main(int argc, char* argv[]){
 		exit(1);
 	}
 
-	//for(int i=0;i<n; i++) printf("c[%d]: %d\n",i,c[i]);
+	//for(int i=0;i<n; i++) printf("c[%d]: %f\n",i,c[i]);
 
 
 	exit(0);
