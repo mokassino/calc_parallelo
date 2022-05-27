@@ -3,6 +3,20 @@
 #include <omp.h>
 #include "util.h"
 
+
+double vectorsum_seq(float **c, float**a, float**b, int alpha, long int n){
+	double ec=0.0, sc=0.0;
+
+	sc = omp_get_wtime();
+	for (int i=0; i<n; i++){
+		(*c)[i] = (*a)[i] * alpha + (*b)[i];
+	}
+	ec = omp_get_wtime();
+
+	return ec-sc;
+}
+
+
 double vectorsum(float **c, float**a, float**b, int alpha, long int n , int nproc, int r){
 	omp_set_num_threads(nproc); //setta il numero di processori al programma
 	int i=0;
@@ -28,7 +42,6 @@ double vectorsum(float **c, float**a, float**b, int alpha, long int n , int npro
 		for (i=imov; i<imov+nloc; i++){ 
 			(*c)[i] =  (*a)[i] * alpha + (*b)[i] ;
 		}
-		#pragma omp barrier
 	}
 	ec = omp_get_wtime();
 
@@ -69,7 +82,12 @@ int main(int argc, char* argv[]){
 
 	r = n%nproc; //calcolo
 
-	time = vectorsum(&c,&a,&b,alpha,n,nproc,r);
+	if (nproc == 1){
+		time = vectorsum_seq(&c,&a,&b,alpha,n);
+	}else{
+		time = vectorsum(&c,&a,&b,alpha,n,nproc,r);
+	}
+
 
 	//printf("Finito in: %f secondi\n",time);
 

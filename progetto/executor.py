@@ -11,7 +11,7 @@ import subprocess
 REP=1000 # Numero di ripetizioni del programma
 ttot=0 # somma dei tempi ricavati
 N=[10, 100, 1000, 10000, 50000, 750000, 1999999 ] # Dimensione del problema N cioè la dimensione degli array a,b,c
-NPROC=2
+NPROC=3
 
 
 if len(sys.argv) < 2:
@@ -67,5 +67,4 @@ for nval in N:
     with open("results","a") as f:
         if (f.tell() == 0):
             print("Rep\tN Proc\tSize\tResult",end='\n',file=f)
-        else:
-            print(str(REP)+"\t"+str(NPROC)+"\t"+str(nval)+"\t"+str(ttot)+"\n",file=f)
+        print(str(REP)+"\t"+str(NPROC)+"\t"+str(nval)+"\t"+str(ttot)+"\n",file=f)
