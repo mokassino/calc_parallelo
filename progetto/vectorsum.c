@@ -24,22 +24,24 @@ double vectorsum(float **c, float**a, float**b, int alpha, long int n , int npro
 	int step=0;
 	int tnum=0;
 	int imov=0;
+	int copy_nloc=0;
 	double ec = 0.0,sc = 0.0;
 
+	nloc = n/nproc;
 	sc = omp_get_wtime();
 
-	#pragma omp parallel private(tnum,step,i, imov, nloc)
+	#pragma omp parallel private(tnum,step,i, imov) shared(nloc)
 	{
-		nloc=n/nproc;
+		copy_nloc = nloc;
 		tnum = omp_get_thread_num();
 		if ( tnum < r){
-			nloc++;
+			copy_nloc++;
 			step=0;
 		}else{
 			step=r;
 		}
-		imov = tnum*nloc + step;
-		for (i=imov; i<imov+nloc; i++){ 
+		imov = tnum*copy_nloc + step;
+		for (i=imov; i<imov+copy_nloc; i++){ 
 			(*c)[i] =  (*a)[i] * alpha + (*b)[i] ;
 		}
 	}
@@ -95,7 +97,7 @@ int main(int argc, char* argv[]){
 		exit(1);
 	}
 
-	//for(int i=0;i<n; i++) printf("c[%d]: %f\n",i,c[i]);
+	for(int i=0;i<n; i++) printf("c[%d]: %f\n",i,c[i]);
 
 
 	exit(0);
