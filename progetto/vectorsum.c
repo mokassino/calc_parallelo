@@ -98,7 +98,7 @@ int main(int argc, char* argv[]){
 		exit(1);
 	}
 
-	//Ciclo for per stampare i risultati.
+	//Ciclo for per stampare il risultato
 	//for(int i=0;i<n; i++) printf("c[%d]: %f\n",i,c[i]);
 
 

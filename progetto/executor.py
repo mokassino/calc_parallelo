@@ -10,7 +10,7 @@ import subprocess
 
 REP=1000 # Numero di ripetizioni del programma
 ttot=0 # somma dei tempi ricavati
-N=[10, 100, 1000, 10000, 50000, 750000, 1999999 ] # Dimensione del problema N cioè la dimensione degli array a,b,c
+N=[50000, 750000, 1999999,  50000000] # Dimensione del problema N cioè la dimensione degli array a,b,c
 NPROC=3
 
 
@@ -36,7 +36,7 @@ alpha=randrange(2,10); # Un arbitrario valore alpha con cui eseguire il file vec
 
 print("Generato alpha=" + str(alpha) + "...\\ \nCompilazione ed esecuzione di vectorsum per #"+str(REP)+" volte.../\n")
 
-out = subprocess.run(["gcc", "-o", "vectorsum", "vectorsum.c", "-fopenmp"]) # compilazione
+out = subprocess.run(["gcc", "-o", "vectorsum", "vectorsum.c", "-fopenmp", "-O3"]) # compilazione
 
 if ( out.returncode == 1): # Se non sei riuscito a compilare il file, esci
     print("Compilazione del file 'vectorsum.c' fallita")
@@ -60,6 +60,7 @@ for nval in N:
                 time = float(f.readline()) #time = tempo dal file
                 ttot = ttot + time
             except: pass
+    out = subprocess.run(["rm","timings"])
 
     print("\nRipetizioni del programma vectorsum effettuate: " + str(REP)+ " con NPROC = " + str(NPROC) + " e N = " + str(nval) + "\nSomma dei tempi di esecuzione delle operazioni: " + str(ttot) )
     print("Media dei tempi di esecuzione: " + str(float(ttot/REP)) + "\n")
@@ -67,4 +68,4 @@ for nval in N:
     with open("results","a") as f:
         if (f.tell() == 0):
             print("Rep\tN Proc\tSize\tResult",end='\n',file=f)
-        print(str(REP)+"\t"+str(NPROC)+"\t"+str(nval)+"\t"+str(ttot)+"\n",file=f)
+        print(str(REP)+"\t"+str(NPROC)+"\t"+str(nval)+"\t"+str(ttot/REP)+"\n",file=f)
