@@ -8,9 +8,9 @@ import subprocess
 
 # Questo script serve a testare in automatico il funzionamento del progetto
 
-REP=1000 # Numero di ripetizioni del programma
+REP=100 # Numero di ripetizioni del programma
 ttot=0 # somma dei tempi ricavati
-N=[50000, 750000, 1999999,  50000000] # Dimensione del problema N cioè la dimensione degli array a,b,c
+N=[50000, 750000, 1999999, 5000000, 7500000, 50000000] # Dimensione del problema N cioè la dimensione degli array a,b,c
 NPROC=3
 
 
