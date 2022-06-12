@@ -10,7 +10,7 @@ import subprocess
 
 REP=100 # Numero di ripetizioni del programma
 ttot=0 # somma dei tempi ricavati
-N=[50000, 750000, 1999999, 5000000, 7500000, 50000000] # Dimensione del problema N cioè la dimensione degli array a,b,c
+N=[50000, 750000, 1999999, 5000000, 7500000, 10000000] # Dimensione del problema N cioè la dimensione degli array a,b,c
 NPROC=3
 
 
