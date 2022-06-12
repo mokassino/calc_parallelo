@@ -33,24 +33,28 @@ def iter_subplot(y,x, pos, gfunc):
         
 
 def efficiency(p, N):
+    print("N: " + str(N) + "res: " +str(speedup(p,N)/p))
     return speedup(p, N)/p
 
 
 def speedup(p, N): #Speedup
-    return N/tau(p, N)
+
+    return (2*N)/tau(p, N)
 
 def tau(p, N): #Time graphs
 
     tau = np.zeros(len(p))
 
+    tau[0] = 2*N
     for i in range(0,len(p)):
-        tau[i] = int(N/p[i])
+        tau[i] = float((2*N) /p[i])
         if N % p[i] != 0:
             tau[i] = tau[i] + 3
         else:
             tau[i] = tau[i] + 2
-        
-    #print(tau)
+
+    tau[0] = 2*N
+    print(tau)
     return tau
 
 def main():

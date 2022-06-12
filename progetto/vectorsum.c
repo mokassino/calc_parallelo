@@ -17,20 +17,21 @@ double vectorsum_seq(float **c, float**a, float**b, int alpha, long int n){
 }
 
 
-double vectorsum(float **c, float**a, float**b, int alpha, long int n , int nproc, int r){
-	omp_set_num_threads(nproc); //setta il numero di processori al programma
+double vectorsum(float **c, float**a, float**b, int alpha, long int n , int nproc){
 	int i=0;
-	int nloc=0;
-	int step=0;
+	int nloc=0, copy_nloc = 0;
+	int r=0, step=0;
 	int tnum=0;
 	int imov=0;
-	int copy_nloc=0;
 	double ec = 0.0,sc = 0.0;
 
 	nloc = n/nproc;
+	r = n%nproc;
+
+	omp_set_num_threads(nproc); //setta il numero di processori al programma
 	sc = omp_get_wtime();
 
-	#pragma omp parallel private(tnum,step,i, imov) shared(nloc)
+	#pragma omp parallel private(tnum,step,i, imov, copy_nloc) shared(nloc, r, c)
 	{
 		copy_nloc = nloc;
 		tnum = omp_get_thread_num();
@@ -87,7 +88,7 @@ int main(int argc, char* argv[]){
 	if (nproc == 1){
 		time = vectorsum_seq(&c,&a,&b,alpha,n);
 	}else{
-		time = vectorsum(&c,&a,&b,alpha,n,nproc,r);
+		time = vectorsum(&c,&a,&b,alpha,n,nproc);
 	}
 
 
@@ -97,7 +98,8 @@ int main(int argc, char* argv[]){
 		exit(1);
 	}
 
-	for(int i=0;i<n; i++) printf("c[%d]: %f\n",i,c[i]);
+	//Ciclo for per stampare i risultati.
+	//for(int i=0;i<n; i++) printf("c[%d]: %f\n",i,c[i]);
 
 
 	exit(0);
